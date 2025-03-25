@@ -1,71 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <title>BBFS Generator</title>
+    <title>BBFS Kombinasi Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            padding: 20px;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#3B82F6',
+                        'secondary': '#10B981'
+                    }
+                }
+            }
         }
-
-        .result {
-            font-weight: bold;
-        }
-
-        textarea {
-            font-family: monospace;
-        }
-    </style>
+    </script>
 </head>
-
-<body>
-    <div class="container">
-        <h2 class="text-center mb-4">BBFS Generator</h2>
-
-        <!-- Input As, Kop, Kepala, Ekor, Cadangan -->
-        <div class="row g-3">
-            <div class="col-md-4">
-                <label for="as">As</label>
-                <input type="text" id="as" class="form-control" placeholder="Masukkan angka As">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white shadow-2xl rounded-xl p-8 w-full max-w-4xl">
+        <h2 class="text-3xl font-bold text-center text-primary mb-6">BBFS Kombinasi Generator</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <!-- Input Fields -->
+            <div class="space-y-2">
+                <label for="as" class="block text-sm font-medium text-gray-700">As</label>
+                <input type="text" id="as" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Angka As">
             </div>
-
-            <div class="col-md-4">
-                <label for="kop">Kop</label>
-                <input type="text" id="kop" class="form-control" placeholder="Masukkan angka Kop">
+            <div class="space-y-2">
+                <label for="kop" class="block text-sm font-medium text-gray-700">Kop</label>
+                <input type="text" id="kop" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Angka Kop">
             </div>
-
-            <div class="col-md-4">
-                <label for="kepala">Kepala</label>
-                <input type="text" id="kepala" class="form-control" placeholder="Masukkan angka Kepala">
+            <div class="space-y-2">
+                <label for="kepala" class="block text-sm font-medium text-gray-700">Kepala</label>
+                <input type="text" id="kepala" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Angka Kepala">
             </div>
-
-            <div class="col-md-4">
-                <label for="ekor">Ekor</label>
-                <input type="text" id="ekor" class="form-control" placeholder="Masukkan angka Ekor">
+            <div class="space-y-2">
+                <label for="ekor" class="block text-sm font-medium text-gray-700">Ekor</label>
+                <input type="text" id="ekor" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Angka Ekor">
             </div>
-
-            <div class="col-md-4">
-                <label for="cadangan">Cadangan</label>
-                <input type="text" id="cadangan" class="form-control" placeholder="Masukkan angka Cadangan">
+            <div class="space-y-2">
+                <label for="cadangan" class="block text-sm font-medium text-gray-700">Cadangan</label>
+                <input type="text" id="cadangan" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Angka Cadangan">
             </div>
-
-            <!-- Pilihan Pemisah -->
-            <div class="col-md-4">
-                <label for="separator">Pilih Pemisah</label>
-                <select id="separator" class="form-select">
-                    <option value="*">*</option>
-                    <option value="#">#</option>
-                    <option value=",">,</option>
+            
+            <!-- Separator Dropdown -->
+            <div class="space-y-2">
+                <label for="separator" class="block text-sm font-medium text-gray-700">Pemisah</label>
+                <select id="separator" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="*">* (Bintang)</option>
+                    <option value="#"># (Pagar)</option>
+                    <option value=",">, (Koma)</option>
                 </select>
             </div>
-
-            <!-- Pilihan Panjang Kombinasi -->
-            <div class="col-md-4">
-                <label for="length">Pilih Panjang (2D, 3D, 4D, 5D)</label>
-                <select id="length" class="form-select">
+            
+            <!-- Length Dropdown -->
+            <div class="space-y-2">
+                <label for="length" class="block text-sm font-medium text-gray-700">Panjang Kombinasi</label>
+                <select id="length" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                     <option value="2">2D</option>
                     <option value="3">3D</option>
                     <option value="4">4D</option>
@@ -74,19 +68,32 @@
             </div>
         </div>
 
-        <!-- Tombol Generate -->
-        <button class="btn btn-primary mt-4 w-100" onclick="generateBBFS()">Generate Kombinasi</button>
+        <!-- Generate Button -->
+        <button onclick="generateBBFS()" class="w-full bg-primary text-white py-3 rounded-md hover:bg-blue-700 transition duration-300 flex items-center justify-center space-x-2 mb-6">
+            <i class="fas fa-magic"></i>
+            <span>Generate Kombinasi</span>
+        </button>
 
-        <!-- Output -->
-        <div class="mt-4">
-            <h4>Hasil Kombinasi:</h4>
-            <textarea id="output" class="form-control" rows="10" readonly></textarea>
-            <p id="count" class="result mt-2">Total Kombinasi: 0</p>
+        <!-- Output Section -->
+        <div class="bg-gray-50 p-4 rounded-md">
+            <div class="flex justify-between items-center mb-2">
+                <h4 class="text-lg font-semibold text-gray-700">Hasil Kombinasi:</h4>
+                <div class="flex space-x-2">
+                    <button onclick="copyToClipboard()" class="text-primary hover:bg-blue-100 p-2 rounded-md transition" title="Salin">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button onclick="downloadResults()" class="text-secondary hover:bg-green-100 p-2 rounded-md transition" title="Unduh">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+            <textarea id="output" class="w-full min-h-[200px] p-2 border border-gray-300 rounded-md font-mono resize-y" readonly></textarea>
+            <p id="count" class="text-right font-bold text-gray-700 mt-2">Total Kombinasi: 0</p>
         </div>
     </div>
 
     <script>
-        // Fungsi untuk menghasilkan permutasi
+        // Existing permute function from previous implementation
         function permute(arr, length) {
             if (length === 1) return arr.map(item => [item]);
             let result = [];
@@ -100,7 +107,7 @@
             return result;
         }
 
-        // Fungsi untuk menghasilkan kombinasi BBFS
+        // Enhanced generateBBFS function with more validation
         function generateBBFS() {
             const as = document.getElementById("as").value.split("");
             const kop = document.getElementById("kop").value.split("");
@@ -110,12 +117,21 @@
             const separator = document.getElementById("separator").value;
             const length = parseInt(document.getElementById("length").value, 10);
 
+            // Comprehensive input validation
             if (as.length === 0 || kop.length === 0 || kepala.length === 0 || ekor.length === 0 || cadangan.length === 0) {
                 alert("Harap isi semua posisi (As, Kop, Kepala, Ekor, Cadangan)!");
                 return;
             }
 
-            // Menggabungkan semua angka yang dimasukkan
+            // Check for unique digits
+            const allInputs = [...as, ...kop, ...kepala, ...ekor, ...cadangan];
+            const uniqueInputs = new Set(allInputs);
+            if (uniqueInputs.size !== allInputs.length) {
+                alert("Setiap angka harus unik!");
+                return;
+            }
+
+            // Existing combination generation logic
             let allNumbers = [];
             for (let a of as) {
                 for (let k of kop) {
@@ -129,7 +145,7 @@
                 }
             }
 
-            // Menghasilkan permutasi unik dari kombinasi sesuai panjang (2D, 3D, 4D, 5D)
+            // Generating unique permutations
             let uniquePermutations = new Set();
             for (let number of allNumbers) {
                 let perms = permute(number.split(""), length);
@@ -138,14 +154,32 @@
                 }
             }
 
-            // Menampilkan hasil kombinasi
+            // Displaying results
             const output = Array.from(uniquePermutations).join(separator);
             document.getElementById("output").value = output;
             document.getElementById("count").innerText = `Total Kombinasi: ${uniquePermutations.size}`;
         }
+
+        // New function to copy results to clipboard
+        function copyToClipboard() {
+            const output = document.getElementById("output");
+            output.select();
+            navigator.clipboard.writeText(output.value).then(() => {
+                alert("Kombinasi berhasil disalin!");
+            });
+        }
+
+        // New function to download results as text file
+        function downloadResults() {
+            const output = document.getElementById("output").value;
+            const count = document.getElementById("count").innerText;
+            
+            const blob = new Blob([`${count}\n\n${output}`], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'bbfs_kombinasi.txt';
+            link.click();
+        }
     </script>
-
 </body>
-
 </html>
-
