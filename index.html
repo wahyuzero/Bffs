@@ -175,7 +175,7 @@
                             </div>
                             
                             <div class="mb-3" id="varEContainer" style="display: none;">
-                                <label for="varE" class="form-label">Variable E</label>
+                                <label for="varE" class="form-label">Ekor Cadangan</label>
                                 <input type="text" class="form-control" id="varE" placeholder="e.g., 57">
                             </div>
                             
@@ -392,7 +392,7 @@
                     section.className = 'split-section';
                     
                     const header = document.createElement('h6');
-                    header.textContent = `Part ${i + 1} (${chunk.length} combinations)`;
+                    header.textContent = `Part ${i + 1} (${chunk.length} kombinasi)`;
                     
                     const textarea = document.createElement('textarea');
                     textarea.className = 'form-control result-area mb-2';
@@ -410,7 +410,7 @@
                         
                         // Visual feedback
                         const originalText = copyButton.innerHTML;
-                        copyButton.innerHTML = '<i class="bi bi-check"></i> Copied!';
+                        copyButton.innerHTML = '<i class="bi bi-check"></i> Disalin!';
                         copyButton.classList.remove('btn-outline-primary');
                         copyButton.classList.add('btn-success');
                         
@@ -475,7 +475,7 @@
             // Display results function
             function displayResults(combinations, separator) {
                 resultTextarea.value = combinations.join(separator);
-                countDisplay.textContent = `${combinations.length} combinations`;
+                countDisplay.textContent = `${combinations.length} kombinasi`;
                 countDisplay.className = 'badge bg-success';
             }
             
