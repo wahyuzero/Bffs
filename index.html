@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BFFS Generator</title>
+    <title>Advanced BFFS Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
@@ -89,9 +89,47 @@
             margin-right: 0.75rem;
         }
         
+        .separator-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .separator-option label {
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+        
+        .separator-option .btn-group {
+            flex-wrap: wrap;
+        }
+        
+        .split-results {
+            margin-top: 20px;
+        }
+        
+        .split-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .split-section h6 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
         @media (max-width: 768px) {
             .card {
                 margin-bottom: 1.5rem;
+            }
+            
+            .separator-option {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -129,16 +167,40 @@
                                 </div>
                             </div>
                             
-                            <div class="toggle-option mb-4">
+                            <div class="toggle-option mb-3">
                                 <input class="form-check-input" type="checkbox" id="useVarE">
                                 <label class="form-check-label" for="useVarE">
-                                    Ekor Cadangan (Optional)
+                                    Ekor Cadangan (Khusus 5D)
                                 </label>
                             </div>
                             
-                            <div class="mb-4" id="varEContainer" style="display: none;">
-                                <label for="varE" class="form-label">Ekor Cadangan</label>
+                            <div class="mb-3" id="varEContainer" style="display: none;">
+                                <label for="varE" class="form-label">Variable E</label>
                                 <input type="text" class="form-control" id="varE" placeholder="e.g., 57">
+                            </div>
+                            
+                            <div class="toggle-option mb-3">
+                                <input class="form-check-input" type="checkbox" id="shuffleBefore">
+                                <label class="form-check-label" for="shuffleBefore">
+                                    Acak angak sebelum generate
+                                </label>
+                            </div>
+                            
+                            <div class="separator-option mb-4">
+                                <label>Separator:</label>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="separator" id="sepComma" autocomplete="off" checked value=",">
+                                    <label class="btn btn-outline-secondary" for="sepComma">Koma (,)</label>
+                                    
+                                    <input type="radio" class="btn-check" name="separator" id="sepHash" autocomplete="off" value="#">
+                                    <label class="btn btn-outline-secondary" for="sepHash">Pagar (#)</label>
+                                    
+                                    <input type="radio" class="btn-check" name="separator" id="sepStar" autocomplete="off" value="*">
+                                    <label class="btn btn-outline-secondary" for="sepStar">Bintang (*)</label>
+                                    
+                                    <input type="radio" class="btn-check" name="separator" id="sepNone" autocomplete="off" value="">
+                                    <label class="btn btn-outline-secondary" for="sepNone">Tanpa Pemisah</label>
+                                </div>
                             </div>
                             
                             <div class="d-grid gap-2">
@@ -157,17 +219,45 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="result" class="form-label">Hasil</label>
+                            <label for="result" class="form-label">Hasil Kombinasi</label>
                             <textarea class="form-control result-area" id="result" rows="8" readonly></textarea>
                         </div>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mb-3">
                             <div>
-                                <span id="countDisplay" class="badge bg-secondary">0 Kombinasi</span>
+                                <span id="countDisplay" class="badge bg-secondary">0 combinations</span>
                             </div>
-                            <button id="copyBtn" class="btn btn-outline-primary">
-                                <i class="bi bi-clipboard"></i> Salin
-                            </button>
+                            <div>
+                                <button id="shuffleBtn" class="btn btn-outline-secondary me-2" disabled>
+                                    <i class="bi bi-shuffle"></i> Hasil acak
+                                </button>
+                                <button id="copyBtn" class="btn btn-outline-primary">
+                                    <i class="bi bi-clipboard"></i> Salin
+                                </button>
+                            </div>
                         </div>
+                        
+                        <div class="toggle-option mb-3">
+                            <input class="form-check-input" type="checkbox" id="enableSplit">
+                            <label class="form-check-label" for="enableSplit">
+                                Split Hasil
+                            </label>
+                        </div>
+                        
+                        <div id="splitOptions" style="display: none;">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="splitCount" class="form-label">Split menjadi beberapa part (2-30):</label>
+                                    <input type="number" class="form-control" id="splitCount" min="2" max="30" value="5">
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <button id="splitBtn" class="btn btn-primary">
+                                        <i class="bi bi-scissors"></i>Hasil Split
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="splitResults" class="split-results"></div>
                     </div>
                 </div>
             </div>
@@ -175,7 +265,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Toggle optional variable E
@@ -191,11 +280,29 @@
                 }
             });
             
+            // Toggle split options
+            const enableSplit = document.getElementById('enableSplit');
+            const splitOptions = document.getElementById('splitOptions');
+            
+            enableSplit.addEventListener('change', function() {
+                if (this.checked) {
+                    splitOptions.style.display = 'block';
+                } else {
+                    splitOptions.style.display = 'none';
+                    document.getElementById('splitResults').innerHTML = '';
+                }
+            });
+            
             // Form submission
             const generatorForm = document.getElementById('generatorForm');
             const resultTextarea = document.getElementById('result');
             const countDisplay = document.getElementById('countDisplay');
             const copyBtn = document.getElementById('copyBtn');
+            const shuffleBtn = document.getElementById('shuffleBtn');
+            const splitBtn = document.getElementById('splitBtn');
+            const splitResults = document.getElementById('splitResults');
+            
+            let currentCombinations = [];
             
             generatorForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -207,20 +314,36 @@
                 const varD = document.getElementById('varD').value.trim();
                 const useVarE = useVarECheckbox.checked;
                 const varE = useVarE ? document.getElementById('varE').value.trim() : '';
+                const shuffleBefore = document.getElementById('shuffleBefore').checked;
+                const separator = document.querySelector('input[name="separator"]:checked').value;
                 
                 // Validate inputs
                 if (!varA || !varB || !varC || !varD || (useVarE && !varE)) {
-                    alert('Please fill in all required fields!');
+                    alert('Jangan ada yang di kosongi');
                     return;
                 }
                 
                 // Generate combinations
-                const combinations = generateCombinations(varA, varB, varC, varD, varE, useVarE);
+                currentCombinations = generateCombinations(
+                    varA, varB, varC, varD, varE, 
+                    useVarE, shuffleBefore, separator
+                );
                 
                 // Display results
-                resultTextarea.value = combinations.join('\n');
-                countDisplay.textContent = `${combinations.length} kombinasi`;
-                countDisplay.className = 'badge bg-success';
+                displayResults(currentCombinations, separator);
+                
+                // Enable shuffle button
+                shuffleBtn.disabled = false;
+            });
+            
+            // Shuffle results
+            shuffleBtn.addEventListener('click', function() {
+                if (currentCombinations.length > 0) {
+                    const separator = document.querySelector('input[name="separator"]:checked').value;
+                    const shuffled = shuffleArray([...currentCombinations]);
+                    displayResults(shuffled, separator);
+                    currentCombinations = shuffled;
+                }
             });
             
             // Copy to clipboard
@@ -243,16 +366,87 @@
                 }
             });
             
+            // Split results
+            splitBtn.addEventListener('click', function() {
+                if (currentCombinations.length === 0) {
+                    alert('Tak ada hasil yang dapat dibagi');
+                    return;
+                }
+                
+                const parts = parseInt(document.getElementById('splitCount').value);
+                if (parts < 2 || parts > 30) {
+                    alert('Masukan antara 2 sampai 30');
+                    return;
+                }
+                
+                splitResults.innerHTML = '';
+                const separator = document.querySelector('input[name="separator"]:checked').value;
+                const chunkSize = Math.ceil(currentCombinations.length / parts);
+                
+                for (let i = 0; i < parts; i++) {
+                    const start = i * chunkSize;
+                    const end = start + chunkSize;
+                    const chunk = currentCombinations.slice(start, end);
+                    
+                    const section = document.createElement('div');
+                    section.className = 'split-section';
+                    
+                    const header = document.createElement('h6');
+                    header.textContent = `Part ${i + 1} (${chunk.length} combinations)`;
+                    
+                    const textarea = document.createElement('textarea');
+                    textarea.className = 'form-control result-area mb-2';
+                    textarea.rows = 5;
+                    textarea.readOnly = true;
+                    textarea.value = chunk.join(separator);
+                    
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'btn btn-outline-primary btn-sm';
+                    copyButton.innerHTML = '<i class="bi bi-clipboard"></i> Salin';
+                    
+                    copyButton.addEventListener('click', function() {
+                        textarea.select();
+                        document.execCommand('copy');
+                        
+                        // Visual feedback
+                        const originalText = copyButton.innerHTML;
+                        copyButton.innerHTML = '<i class="bi bi-check"></i> Copied!';
+                        copyButton.classList.remove('btn-outline-primary');
+                        copyButton.classList.add('btn-success');
+                        
+                        setTimeout(() => {
+                            copyButton.innerHTML = originalText;
+                            copyButton.classList.remove('btn-success');
+                            copyButton.classList.add('btn-outline-primary');
+                        }, 2000);
+                    });
+                    
+                    section.appendChild(header);
+                    section.appendChild(textarea);
+                    section.appendChild(copyButton);
+                    splitResults.appendChild(section);
+                }
+            });
+            
             // Combination generator function
-            function generateCombinations(a, b, c, d, e, useE) {
+            function generateCombinations(a, b, c, d, e, useE, shuffleBefore, separator) {
                 const combinations = [];
                 
                 // Get digits for each position
-                const aDigits = a.split('').map(Number);
-                const bDigits = b.split('').map(Number);
-                const cDigits = c.split('').map(Number);
-                const dDigits = d.split('').map(Number);
-                const eDigits = useE ? e.split('').map(Number) : [];
+                let aDigits = a.split('').map(Number);
+                let bDigits = b.split('').map(Number);
+                let cDigits = c.split('').map(Number);
+                let dDigits = d.split('').map(Number);
+                let eDigits = useE ? e.split('').map(Number) : [];
+                
+                // Shuffle digits if requested
+                if (shuffleBefore) {
+                    aDigits = shuffleArray(aDigits);
+                    bDigits = shuffleArray(bDigits);
+                    cDigits = shuffleArray(cDigits);
+                    dDigits = shuffleArray(dDigits);
+                    if (useE) eDigits = shuffleArray(eDigits);
+                }
                 
                 // Generate all possible combinations
                 for (let i = 0; i < aDigits.length; i++) {
@@ -276,6 +470,23 @@
                 }
                 
                 return combinations;
+            }
+            
+            // Display results function
+            function displayResults(combinations, separator) {
+                resultTextarea.value = combinations.join(separator);
+                countDisplay.textContent = `${combinations.length} combinations`;
+                countDisplay.className = 'badge bg-success';
+            }
+            
+            // Fisher-Yates shuffle algorithm
+            function shuffleArray(array) {
+                const newArray = [...array];
+                for (let i = newArray.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+                }
+                return newArray;
             }
         });
     </script>
