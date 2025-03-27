@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Number Generator</title>
+    <title>BFFS Generator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
@@ -103,28 +103,28 @@
                 <div class="card mb-4">
                     <div class="card-header d-flex align-items-center">
                         <i class="bi bi-calculator feature-icon"></i>
-                        <span>Advanced Number Combination Generator</span>
+                        <span>BFFS Generator</span>
                     </div>
                     <div class="card-body">
                         <form id="generatorForm">
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
-                                    <label for="varA" class="form-label">Variable A</label>
+                                    <label for="varA" class="form-label">As</label>
                                     <input type="text" class="form-control" id="varA" placeholder="e.g., 234" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="varB" class="form-label">Variable B</label>
+                                    <label for="varB" class="form-label">Kop</label>
                                     <input type="text" class="form-control" id="varB" placeholder="e.g., 561" required>
                                 </div>
                             </div>
                             
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
-                                    <label for="varC" class="form-label">Variable C</label>
+                                    <label for="varC" class="form-label">Kepala</label>
                                     <input type="text" class="form-control" id="varC" placeholder="e.g., 890" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="varD" class="form-label">Variable D</label>
+                                    <label for="varD" class="form-label">Ekor</label>
                                     <input type="text" class="form-control" id="varD" placeholder="e.g., 76" required>
                                 </div>
                             </div>
@@ -132,18 +132,18 @@
                             <div class="toggle-option mb-4">
                                 <input class="form-check-input" type="checkbox" id="useVarE">
                                 <label class="form-check-label" for="useVarE">
-                                    Include Variable E (Optional)
+                                    Ekor Cadangan (Optional)
                                 </label>
                             </div>
                             
                             <div class="mb-4" id="varEContainer" style="display: none;">
-                                <label for="varE" class="form-label">Variable E</label>
+                                <label for="varE" class="form-label">Ekor Cadangan</label>
                                 <input type="text" class="form-control" id="varE" placeholder="e.g., 57">
                             </div>
                             
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-gear"></i> Generate Combinations
+                                    <i class="bi bi-gear"></i> Generate
                                 </button>
                             </div>
                         </form>
@@ -153,16 +153,16 @@
                 <div class="card">
                     <div class="card-header d-flex align-items-center">
                         <i class="bi bi-clipboard-data feature-icon"></i>
-                        <span>Generated Results</span>
+                        <span>Hasik Generate</span>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="result" class="form-label">Combination Results</label>
+                            <label for="result" class="form-label">Hasil</label>
                             <textarea class="form-control result-area" id="result" rows="8" readonly></textarea>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
-                                <span id="countDisplay" class="badge bg-secondary">0 combinations</span>
+                                <span id="countDisplay" class="badge bg-secondary">0 Kombinasi</span>
                             </div>
                             <button id="copyBtn" class="btn btn-outline-primary">
                                 <i class="bi bi-clipboard"></i> Copy to Clipboard
